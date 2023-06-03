@@ -34,7 +34,7 @@ export const Link = objectType({
         t.nonNull.dateTime("createdAt");
         t.field("postedBy", {
             type: "User",
-            resolve(parent, args, context) {
+            resolve(parent, _, context) {
                 return context.prisma.link
                     .findUnique({ where: { id: parent.id } })
                     .postedBy();
@@ -42,7 +42,7 @@ export const Link = objectType({
         });
         t.nonNull.list.nonNull.field("voters", {
             type: "User",
-            resolve(parent, args, context) {
+            resolve(parent, _, context) {
                 return context.prisma.link
                     .findUnique({ where: { id: parent.id } })
                     .voters();
@@ -62,7 +62,7 @@ export const LinkQuery = extendType({
                 take: intArg(),
                 orderBy: arg({ type: list(nonNull(LinkOrderByInput)) }), 
             },
-            async resolve(parent, args, context) {  
+            async resolve(_, args, context) {  
                 const where = args.filter
                     ? {
                           OR: [
@@ -103,7 +103,7 @@ export const LinkMutation = extendType({
                 description: nonNull(stringArg()),
                 url: nonNull(stringArg()),
             },
-            resolve(parent, args, context) {
+            resolve(_, args, context) {
             const { description, url } = args;
             const { userId } = context;
 

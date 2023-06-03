@@ -20,12 +20,21 @@ model Link {
   voters      User[]   @relation(name: "Votes")
 }
 
+model Article {
+  id          Int      @id @default(autoincrement())
+  createdAt   DateTime @default(now())
+  description String
+  url         String
+  author      User?    @relation(name: "Authors", fields: [authorId], references: [id])
+  authorId    Int
+}
 
 model User {
-  id        Int      @id @default(autoincrement())
-  name      String
-  email     String   @unique
-  password  String
-  links    Link[] @relation(name: "PostedBy")
-  votes    Link[] @relation(name: "Votes")
+  id       Int       @id @default(autoincrement())
+  name     String
+  email    String    @unique
+  password String
+  links    Link[]    @relation(name: "PostedBy")
+  articles Article[] @relation(name: "Authors")
+  votes    Link[]    @relation(name: "Votes")
 }

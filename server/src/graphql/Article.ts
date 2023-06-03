@@ -1,5 +1,4 @@
-import { extendType, nonNull, objectType, stringArg } from "nexus";   
-import { NexusGenObjects } from "../../nexus-typegen";  
+import { extendType, intArg, nonNull, objectType, stringArg } from "nexus";   
 
 export const Article = objectType({
     name: "Article",
@@ -9,7 +8,7 @@ export const Article = objectType({
         t.nonNull.string("url");
         t.field("postedBy", {
             type: "User",
-            resolve(parent, args, context) {
+            resolve(parent, _, context) {
                 return context.prisma.link
                     .findUnique({ where: { id: parent.id } })
                     .postedBy();
@@ -17,8 +16,6 @@ export const Article = objectType({
         });
     },
 });
-
-
 
 export const ArticleMutation = extendType({
     type: "Mutation",    
@@ -29,7 +26,7 @@ export const ArticleMutation = extendType({
                 description: nonNull(stringArg()),
                 url: nonNull(stringArg()),
             },
-            resolve(parent, args, context) {
+            async resolve(_, args, context) {
             const { description, url } = args;
             const { userId } = context;
 
@@ -37,7 +34,33 @@ export const ArticleMutation = extendType({
                 throw new Error("Cannot post article without logging in.");
             }
 
-            const newLink = context.prisma.link.create({
+            const newLink = await context.prisma.link.create({
+                data: {
+                    description,
+                    url,
+                    postedBy: { connect: { id: userId } },
+                },
+            });
+            return newLink;
+            },
+        });
+        t.nonNull.field("update", {
+            type: "Article",  
+            args: {
+                id: nonNull(intArg()),
+                description: nonNull(stringArg()),
+                url: nonNull(stringArg()),
+            },
+            async resolve(_, args, context) {
+            const { id, description, url } = args;
+            const { userId } = context;
+
+            if (!userId) {
+                throw new Error("Cannot update article without logging in.");
+            }
+
+            const newLink = await context.prisma.link.update({
+                where: {id},
                 data: {
                     description,
                     url,
@@ -46,6 +69,24 @@ export const ArticleMutation = extendType({
             });
 
             return newLink;
+            },
+        });
+        t.nonNull.field("delete", {
+            type: "Article",  
+            args: {
+                id: nonNull(intArg())
+            },
+            async resolve(_, args, context) {
+            const { id } = args;
+            const { userId } = context;
+
+            if (!userId) {
+                throw new Error("Cannot delete article without logging in.");
+            }
+
+            return await context.prisma.link.delete({
+                where: {id}
+            });
             },
         });
     },

@@ -17,7 +17,7 @@ export const VoteMutation = extendType({
             args: {
                 linkId: nonNull(intArg()),
             },
-            async resolve(parent, args, context) {
+            async resolve(_, args, context) {
                 const { userId } = context;
                 const { linkId } = args;
 
