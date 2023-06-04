@@ -1,17 +1,97 @@
-import { extendType, intArg, nonNull, objectType, stringArg } from "nexus";   
+import { Prisma } from "@prisma/client";
+import { arg, enumType, extendType, inputObjectType, intArg, list, nonNull, objectType, stringArg } from "nexus";   
+
+
+export const ArticleOrderByInput = inputObjectType({
+    name: "ArticleOrderByInput",
+    definition(t) {
+        t.field("title", { type: Sort });
+        t.field("text", { type: Sort });
+        t.field("createdAt", { type: Sort });
+    },
+});
+
+export const Sort = enumType({
+    name: "Sort",
+    members: ["asc", "desc"],
+});
+
+export const Articles = objectType({
+    name: "Articles",
+    definition(t) {
+        t.nonNull.list.nonNull.field("articles", { type: Article });
+        t.nonNull.int("count");
+        t.id("id");
+    },
+});
+
 
 export const Article = objectType({
     name: "Article",
     definition(t) {
         t.nonNull.int("id"); 
-        t.nonNull.string("description"); 
-        t.nonNull.string("url");
+        t.nonNull.string("title"); 
+        t.nonNull.string("text");
+        t.nonNull.dateTime("createdAt");
         t.field("postedBy", {
             type: "User",
             resolve(parent, _, context) {
-                return context.prisma.link
+                return context.prisma.article
                     .findUnique({ where: { id: parent.id } })
-                    .postedBy();
+                    .author();
+            },
+        });
+    },
+});
+
+export const ArticleQuery = extendType({
+    type: "Query",
+    definition(t) {
+        t.field("article", {
+            type: "Article",
+            args: {
+                id: nonNull(intArg()),
+            },
+            async resolve (_, args, context) {
+                console.log("hi")
+                return await context.prisma.article.findUnique({ where: { id: args.id } });
+            },
+        });
+        t.nonNull.field("articles", {
+            type: "Articles",
+            args: {
+                filter: stringArg(),
+                skip: intArg(),
+                take: intArg(),
+                orderBy: arg({ type: list(nonNull(ArticleOrderByInput)) }), 
+            },
+            async resolve(_, args, context) {  
+                const where = args.filter
+                    ? {
+                          OR: [
+                              { title: { contains: args.filter } },
+                              { text: { contains: args.filter } },
+                          ],
+                      }
+                    : {};
+
+                const articles = await context.prisma.article.findMany({  
+                    where,
+                    skip: args?.skip as number | undefined,
+                    take: args?.take as number | undefined,
+                    orderBy: args?.orderBy as
+                        | Prisma.Enumerable<Prisma.ArticleOrderByWithRelationInput>
+                        | undefined,
+                });
+
+                const count = await context.prisma.article.count({ where });
+                const id = `main-feed:${JSON.stringify(args)}`;
+                  
+                return {
+                    articles,
+                    count,
+                    id,
+                };
             },
         });
     },
@@ -23,52 +103,52 @@ export const ArticleMutation = extendType({
         t.nonNull.field("create", {
             type: "Article",  
             args: {
-                description: nonNull(stringArg()),
-                url: nonNull(stringArg()),
+                title: nonNull(stringArg()),
+                text: nonNull(stringArg()),
             },
             async resolve(_, args, context) {
-            const { description, url } = args;
+            const { title, text } = args;
             const { userId } = context;
 
             if (!userId) {
                 throw new Error("Cannot post article without logging in.");
             }
 
-            const newLink = await context.prisma.link.create({
+            const newArticle = await context.prisma.article.create({
                 data: {
-                    description,
-                    url,
-                    postedBy: { connect: { id: userId } },
+                    title,
+                    text,
+                    author: { connect: { id: userId } },
                 },
             });
-            return newLink;
+            return newArticle;
             },
         });
         t.nonNull.field("update", {
             type: "Article",  
             args: {
                 id: nonNull(intArg()),
-                description: nonNull(stringArg()),
-                url: nonNull(stringArg()),
+                title: nonNull(stringArg()),
+                text: nonNull(stringArg()),
             },
             async resolve(_, args, context) {
-            const { id, description, url } = args;
+            const { id, title, text } = args;
             const { userId } = context;
 
             if (!userId) {
                 throw new Error("Cannot update article without logging in.");
             }
 
-            const newLink = await context.prisma.link.update({
+            const updatedArticle = await context.prisma.article.update({
                 where: {id},
                 data: {
-                    description,
-                    url,
-                    postedBy: { connect: { id: userId } },
+                    title,
+                    text,
+                    author: { connect: { id: userId } },
                 },
             });
 
-            return newLink;
+            return updatedArticle;
             },
         });
         t.nonNull.field("delete", {
@@ -84,7 +164,7 @@ export const ArticleMutation = extendType({
                 throw new Error("Cannot delete article without logging in.");
             }
 
-            return await context.prisma.link.delete({
+            return await context.prisma.article.delete({
                 where: {id}
             });
             },

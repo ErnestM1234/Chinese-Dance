@@ -5,6 +5,7 @@ import LinkList from './LinkList';
 import { Route, Routes } from 'react-router-dom';
 import Login from './Login';
 import Search from './Search';
+import Article from './Article';
 
 
 const App = () => {
@@ -20,6 +21,7 @@ const App = () => {
           />
           <Route path="/login" element={<Login/>} />
           <Route path="/search"element={<Search/>}/>
+          <Route path="/article"element={<Article id={1}/>}/>
         </Routes>
       </div>
     </div>

@@ -29,6 +29,11 @@ declare global {
 }
 
 export interface NexusGenInputs {
+  ArticleOrderByInput: { // input type
+    createdAt?: NexusGenEnums['Sort'] | null; // Sort
+    text?: NexusGenEnums['Sort'] | null; // Sort
+    title?: NexusGenEnums['Sort'] | null; // Sort
+  }
   LinkOrderByInput: { // input type
     createdAt?: NexusGenEnums['Sort'] | null; // Sort
     description?: NexusGenEnums['Sort'] | null; // Sort
@@ -51,9 +56,15 @@ export interface NexusGenScalars {
 
 export interface NexusGenObjects {
   Article: { // root type
-    description: string; // String!
+    createdAt: NexusGenScalars['DateTime']; // DateTime!
     id: number; // Int!
-    url: string; // String!
+    text: string; // String!
+    title: string; // String!
+  }
+  Articles: { // root type
+    articles: NexusGenRootTypes['Article'][]; // [Article!]!
+    count: number; // Int!
+    id?: string | null; // ID
   }
   AuthPayload: { // root type
     token: string; // String!
@@ -95,10 +106,16 @@ export type NexusGenAllTypes = NexusGenRootTypes & NexusGenScalars & NexusGenEnu
 
 export interface NexusGenFieldTypes {
   Article: { // field return type
-    description: string; // String!
+    createdAt: NexusGenScalars['DateTime']; // DateTime!
     id: number; // Int!
     postedBy: NexusGenRootTypes['User'] | null; // User
-    url: string; // String!
+    text: string; // String!
+    title: string; // String!
+  }
+  Articles: { // field return type
+    articles: NexusGenRootTypes['Article'][]; // [Article!]!
+    count: number; // Int!
+    id: string | null; // ID
   }
   AuthPayload: { // field return type
     token: string; // String!
@@ -118,12 +135,17 @@ export interface NexusGenFieldTypes {
     voters: NexusGenRootTypes['User'][]; // [User!]!
   }
   Mutation: { // field return type
+    create: NexusGenRootTypes['Article']; // Article!
+    delete: NexusGenRootTypes['Article']; // Article!
     login: NexusGenRootTypes['AuthPayload']; // AuthPayload!
     post: NexusGenRootTypes['Link']; // Link!
     signup: NexusGenRootTypes['AuthPayload']; // AuthPayload!
+    update: NexusGenRootTypes['Article']; // Article!
     vote: NexusGenRootTypes['Vote'] | null; // Vote
   }
   Query: { // field return type
+    article: NexusGenRootTypes['Article'] | null; // Article
+    articles: NexusGenRootTypes['Articles']; // Articles!
     feed: NexusGenRootTypes['Feed']; // Feed!
   }
   User: { // field return type
@@ -141,10 +163,16 @@ export interface NexusGenFieldTypes {
 
 export interface NexusGenFieldTypeNames {
   Article: { // field return type name
-    description: 'String'
+    createdAt: 'DateTime'
     id: 'Int'
     postedBy: 'User'
-    url: 'String'
+    text: 'String'
+    title: 'String'
+  }
+  Articles: { // field return type name
+    articles: 'Article'
+    count: 'Int'
+    id: 'ID'
   }
   AuthPayload: { // field return type name
     token: 'String'
@@ -164,12 +192,17 @@ export interface NexusGenFieldTypeNames {
     voters: 'User'
   }
   Mutation: { // field return type name
+    create: 'Article'
+    delete: 'Article'
     login: 'AuthPayload'
     post: 'Link'
     signup: 'AuthPayload'
+    update: 'Article'
     vote: 'Vote'
   }
   Query: { // field return type name
+    article: 'Article'
+    articles: 'Articles'
     feed: 'Feed'
   }
   User: { // field return type name
@@ -187,6 +220,13 @@ export interface NexusGenFieldTypeNames {
 
 export interface NexusGenArgTypes {
   Mutation: {
+    create: { // args
+      text: string; // String!
+      title: string; // String!
+    }
+    delete: { // args
+      id: number; // Int!
+    }
     login: { // args
       email: string; // String!
       password: string; // String!
@@ -200,11 +240,25 @@ export interface NexusGenArgTypes {
       name: string; // String!
       password: string; // String!
     }
+    update: { // args
+      id: number; // Int!
+      text: string; // String!
+      title: string; // String!
+    }
     vote: { // args
       linkId: number; // Int!
     }
   }
   Query: {
+    article: { // args
+      id: number; // Int!
+    }
+    articles: { // args
+      filter?: string | null; // String
+      orderBy?: NexusGenInputs['ArticleOrderByInput'][] | null; // [ArticleOrderByInput!]
+      skip?: number | null; // Int
+      take?: number | null; // Int
+    }
     feed: { // args
       filter?: string | null; // String
       orderBy?: NexusGenInputs['LinkOrderByInput'][] | null; // [LinkOrderByInput!]

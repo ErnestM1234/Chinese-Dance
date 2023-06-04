@@ -1,5 +1,6 @@
 import { Prisma } from "@prisma/client";
-import { arg, enumType, extendType, inputObjectType, intArg, list, nonNull, objectType, stringArg } from "nexus";   
+import { arg, extendType, inputObjectType, intArg, list, nonNull, objectType, stringArg } from "nexus";   
+import { Sort } from "./Article";
 
 
 export const LinkOrderByInput = inputObjectType({
@@ -11,17 +12,17 @@ export const LinkOrderByInput = inputObjectType({
     },
 });
 
-export const Sort = enumType({
-    name: "Sort",
-    members: ["asc", "desc"],
-});
+// export const Sort = enumType({
+//     name: "Sort",
+//     members: ["asc", "desc"],
+// });
 
 export const Feed = objectType({
     name: "Feed",
     definition(t) {
-        t.nonNull.list.nonNull.field("links", { type: Link }); // 1
-        t.nonNull.int("count"); // 2
-        t.id("id");  // 3
+        t.nonNull.list.nonNull.field("links", { type: Link });
+        t.nonNull.int("count");
+        t.id("id");
     },
 });
 
@@ -54,7 +55,7 @@ export const Link = objectType({
 export const LinkQuery = extendType({
     type: "Query",
     definition(t) {
-        t.nonNull.field("feed", {  // 1
+        t.nonNull.field("feed", {
             type: "Feed",
             args: {
                 filter: stringArg(),
@@ -81,8 +82,8 @@ export const LinkQuery = extendType({
                         | undefined,
                 });
 
-                const count = await context.prisma.link.count({ where });  // 2
-                const id = `main-feed:${JSON.stringify(args)}`;  // 3
+                const count = await context.prisma.link.count({ where });
+                const id = `main-feed:${JSON.stringify(args)}`;
                   
                 return {  // 4
                     links,

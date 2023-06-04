@@ -3,10 +3,23 @@
 
 
 type Article {
-  description: String!
+  createdAt: DateTime!
   id: Int!
   postedBy: User
-  url: String!
+  text: String!
+  title: String!
+}
+
+input ArticleOrderByInput {
+  createdAt: Sort
+  text: Sort
+  title: Sort
+}
+
+type Articles {
+  articles: [Article!]!
+  count: Int!
+  id: ID
 }
 
 type AuthPayload {
@@ -41,13 +54,18 @@ input LinkOrderByInput {
 }
 
 type Mutation {
+  create(text: String!, title: String!): Article!
+  delete(id: Int!): Article!
   login(email: String!, password: String!): AuthPayload!
   post(description: String!, url: String!): Link!
   signup(email: String!, name: String!, password: String!): AuthPayload!
+  update(id: Int!, text: String!, title: String!): Article!
   vote(linkId: Int!): Vote
 }
 
 type Query {
+  article(id: Int!): Article
+  articles(filter: String, orderBy: [ArticleOrderByInput!], skip: Int, take: Int): Articles!
   feed(filter: String, orderBy: [LinkOrderByInput!], skip: Int, take: Int): Feed!
 }
 
