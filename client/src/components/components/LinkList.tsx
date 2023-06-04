@@ -15,12 +15,6 @@ export const FEED_QUERY = gql`
           id
           name
         }
-        votes {
-          id
-          user {
-            id
-          }
-        }
       }
     }
   }
@@ -34,7 +28,8 @@ const LinkList = () => {
           {data && (
             <>
               {data.feed.links.map((link: { id: React.Key | null | undefined; }, index: any) => (
-                <Link key={link.id} link={link} index={index} />
+                <Link key={link.id} link={link} />
+                // <Link key={link.id} link={link} index={index} />
               ))}
             </>
           )}

@@ -15,7 +15,7 @@ import {
 import { AUTH_TOKEN } from './constants';
 
 const httpLink = createHttpLink({
-  uri: process.env.SERVER_ADDRESS
+  uri: process.env.REACT_APP_SERVER_ADDRESS
 });
 
 const authLink = setContext((_, { headers }) => {

@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { useLazyQuery, gql } from '@apollo/client';
-import Link from './Link';
+import Link from './../components/Link';
 
 const FEED_SEARCH_QUERY = gql`
   query FeedSearchQuery($filter: String!) {
@@ -15,12 +15,7 @@ const FEED_SEARCH_QUERY = gql`
           id
           name
         }
-        votes {
-          id
-          user {
-            id
-          }
-        }
+        
       }
     }
   }
@@ -51,7 +46,8 @@ const Search = () => {
         </div>
         {data &&
           data.feed.links.map((link: { id: React.Key | null | undefined; }, index: any) => (
-            <Link key={link.id} link={link} index={index} />
+            <Link key={link.id} link={link} />
+            // <Link key={link.id} link={link} index={index} />
           ))}
       </>
     );

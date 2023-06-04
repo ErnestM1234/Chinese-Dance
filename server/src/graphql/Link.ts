@@ -63,7 +63,7 @@ export const LinkQuery = extendType({
                 take: intArg(),
                 orderBy: arg({ type: list(nonNull(LinkOrderByInput)) }), 
             },
-            async resolve(_, args, context) {  
+            async resolve(_, args, context) {
                 const where = args.filter
                     ? {
                           OR: [

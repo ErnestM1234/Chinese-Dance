@@ -1,11 +1,12 @@
 import React from 'react';
-import CreateLink from './CreateLink';
-import Header from './Header';
-import LinkList from './LinkList';
+import CreateLink from './pages/CreateLink';
+import Header from './components/Header';
+import LinkList from './components/LinkList';
 import { Route, Routes } from 'react-router-dom';
-import Login from './Login';
-import Search from './Search';
-import Article from './Article';
+import Login from './pages/Login';
+import Search from './pages/Search';
+import Article from './pages/Article';
+import CreateArticle from './pages/CreateArticle';
 
 
 const App = () => {
@@ -15,6 +16,10 @@ const App = () => {
       <div className="ph3 pv1 background-gray">
         <Routes>
           <Route path="/" element={<LinkList/>} />
+          <Route
+            path="/create"
+            element={<CreateArticle/>}
+          />
           <Route
             path="/create"
             element={<CreateLink/>}

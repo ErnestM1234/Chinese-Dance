@@ -53,7 +53,6 @@ export const ArticleQuery = extendType({
                 id: nonNull(intArg()),
             },
             async resolve (_, args, context) {
-                console.log("hi")
                 return await context.prisma.article.findUnique({ where: { id: args.id } });
             },
         });
