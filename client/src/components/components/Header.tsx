@@ -1,14 +1,19 @@
 import React, { useState } from 'react';
 import { Link } from 'react-router-dom';
-import { AUTH_TOKEN } from './../../constants'
 import { MdClose } from 'react-icons/md';
 import { FiMenu } from 'react-icons/fi';
+import LoginButton from './LoginButton';
+import { useAuth0 } from '@auth0/auth0-react';
+import LogoutButton from './LogoutButton';
 
 
 const Header = () => {
-  const authToken = localStorage.getItem(AUTH_TOKEN);
-
   const [showMenu, setShowMenu] = useState(false);
+  const { isAuthenticated, isLoading } = useAuth0();
+  if (isLoading) {
+    return <div>Loading ...</div>;
+  }
+
   return (
     <>
     <div className="header-container">
@@ -35,6 +40,7 @@ const Header = () => {
               <Link to="/about" className="menu-link" onClick={()=>setShowMenu(false)}><div className="menu-link-contents">about</div></Link>
               <Link to="/search" className="menu-link" onClick={()=>setShowMenu(false)}><div className="menu-link-contents">search</div></Link>
               <Link to="/articles" className="menu-link" onClick={()=>setShowMenu(false)}><div className="menu-link-contents">articles</div></Link>
+              <div className="menu-link"><div className="menu-link-contents">{isAuthenticated ? <LogoutButton /> : <LoginButton />}</div></div>
             </div>
           </div>
         </div>

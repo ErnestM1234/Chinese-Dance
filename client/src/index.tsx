@@ -13,6 +13,7 @@ import {
   InMemoryCache
 } from '@apollo/client';
 import { AUTH_TOKEN } from './constants';
+import { Auth0Provider } from '@auth0/auth0-react';
 
 const httpLink = createHttpLink({
   uri: process.env.REACT_APP_SERVER_ADDRESS
@@ -35,11 +36,19 @@ const client = new ApolloClient({
 
 const root = document.getElementById('root');
 render(
-  <BrowserRouter>
-    <ApolloProvider client={client}>
-      <App />
-    </ApolloProvider>
-  </BrowserRouter>,
+  <Auth0Provider
+    domain={process.env.REACT_APP_AUTH0_DOMAIN || ''}
+    clientId={process.env.REACT_APP_AUTH0_CLIENT_ID || ''}
+    authorizationParams={{
+      redirect_uri: window.location.origin
+    }}
+  >
+    <BrowserRouter>
+      <ApolloProvider client={client}>
+        <App />
+      </ApolloProvider>
+    </BrowserRouter>
+  </Auth0Provider>,
   root
 );
 
