@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { useMutation, gql } from '@apollo/client';
-import { useNavigate } from 'react-router-dom';
+
 
 const CREATE_ARTICLE_MUTATION = gql`
   mutation Mutation($title: String!, $text: String!) {
@@ -40,7 +40,6 @@ query Query {
 // query Query {
 
 const CreateArticle = () => {
-  const navigate = useNavigate();
   const [formState, setFormState] = useState({
     title: '',
     text: ''
@@ -67,46 +66,46 @@ const CreateArticle = () => {
           },
         });
       },
-    onCompleted: () => navigate('/')
+    onCompleted: () => {document.location.href = '/'},
   });
 
   return (
-    <div>
-      <form
-        onSubmit={(e) => {
-          e.preventDefault();
-          createArticle();
-        }}
-      >
-        <div className="flex flex-column mt3">
-          <input
-            className="mb2"
-            value={formState.title}
-            onChange={(e) =>
-              setFormState({
-                ...formState,
-                title: e.target.value
-              })
-            }
-            type="text"
-            placeholder="A title for the article"
-          />
-          <input
-            className="mb2"
-            value={formState.text}
-            onChange={(e) =>
-              setFormState({
-                ...formState,
-                text: e.target.value
-              })
-            }
-            type="text"
-            placeholder="The text for the article"
-          />
-        </div>
-        <button type="submit">Submit</button>
-      </form>
-    </div>
+      <div>
+        <form
+          onSubmit={(e) => {
+            e.preventDefault();
+            createArticle();
+          }}
+        >
+          <div className="flex flex-column mt3">
+            <input
+              className="mb2"
+              value={formState.title}
+              onChange={(e) =>
+                setFormState({
+                  ...formState,
+                  title: e.target.value
+                })
+              }
+              type="text"
+              placeholder="A title for the article"
+            />
+            <input
+              className="mb2"
+              value={formState.text}
+              onChange={(e) =>
+                setFormState({
+                  ...formState,
+                  text: e.target.value
+                })
+              }
+              type="text"
+              placeholder="The text for the article"
+            />
+          </div>
+          <button type="submit">Submit</button>
+        </form>
+      </div>
   );
 };
 

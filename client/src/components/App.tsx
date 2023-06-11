@@ -1,35 +1,39 @@
-import React from 'react';
-import CreateLink from './pages/CreateLink';
+import React, { useEffect } from 'react';
 import Header from './components/Header';
-import LinkList from './components/LinkList';
 import { Route, Routes } from 'react-router-dom';
 import Login from './pages/Login';
 import Search from './pages/Search';
 import Article from './pages/Article';
 import CreateArticle from './pages/CreateArticle';
+import WebFont from 'webfontloader';
+import Articles from './pages/Articles';
+import Landing from './pages/Landing';
+import About from './pages/About';
 
 
 const App = () => {
+  useEffect(() => {
+    WebFont.load({
+      google: {
+        families: ['Droid Sans', 'Chilanka']
+      }
+    });
+   }, []);
+
+
   return (
-    <div className="center w85">
+    <>
       <Header />
-      <div className="ph3 pv1 background-gray">
-        <Routes>
-          <Route path="/" element={<LinkList/>} />
-          <Route
-            path="/create"
-            element={<CreateArticle/>}
-          />
-          <Route
-            path="/create"
-            element={<CreateLink/>}
-          />
-          <Route path="/login" element={<Login/>} />
-          <Route path="/search"element={<Search/>}/>
-          <Route path="/article"element={<Article id={1}/>}/>
-        </Routes>
-      </div>
-    </div>
+      <Routes>
+        <Route path="/" element={<Landing/>} />
+        <Route path="/create" element={<CreateArticle/>} />
+        <Route path="/login" element={<Login/>} />
+        <Route path="/search" element={<Search/>}/>
+        <Route path="/article" element={<Article/>}/>
+        <Route path="/articles" element={<Articles/>}/>
+        <Route path="/about" element={<About/>}/>
+      </Routes>
+    </>
   );
 };
 

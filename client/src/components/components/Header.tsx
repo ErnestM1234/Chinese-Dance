@@ -1,59 +1,48 @@
-import React from 'react';
-import { Link, useNavigate } from 'react-router-dom';
-import { AUTH_TOKEN } from './../../constants';
+import React, { useState } from 'react';
+import { Link } from 'react-router-dom';
+import { AUTH_TOKEN } from './../../constants'
+import { MdClose } from 'react-icons/md';
+import { FiMenu } from 'react-icons/fi';
+
 
 const Header = () => {
-  const navigate = useNavigate();
   const authToken = localStorage.getItem(AUTH_TOKEN);
+
+  const [showMenu, setShowMenu] = useState(false);
   return (
-    <div className="flex pa1 justify-between nowrap orange">
-      <div className="flex flex-fixed black">
-        <Link to="/" className="no-underline black">
-          <div className="fw7 mr1">Chinese Dance</div>
-        </Link>           
-        <Link to="/create" className="ml1 no-underline black">
-          new
-        </Link>
-        <div className="ml1">|</div>
-        <Link
-          to="/search"
-          className="ml1 no-underline black"
-        >
-          search
-        </Link>
-        {authToken && (
-          <div className="flex">
-            <div className="ml1">|</div>
-            <Link
-              to="/create"
-              className="ml1 no-underline black"
-            >
-              submit
-            </Link>
+    <>
+    <div className="header-container">
+      {(!showMenu ?
+        <div className="header">
+          <div className="header-contents-container">
+            <img className="logo" src={require("./chinese-dance-demo-logo.png")} alt="chinese dance logo"></img>
+            <div className="title">Chinese <br/>Dance</div>
+            <div onClick={() => setShowMenu(true)}><FiMenu className="hamburger-menu"/></div>
           </div>
-        )}
-      </div>
-      <div className="flex flex-fixed">
-        {authToken ? (
-          <div
-            className="ml1 pointer black"
-            onClick={() => {
-              localStorage.removeItem(AUTH_TOKEN);
-              navigate(`/`);
-            }}
-          >
-            logout
+        </div>
+        : 
+        <div className="header-long">
+          <div className="header">
+            <div className="header-contents-container">
+              <img className="logo" src={require("./chinese-dance-demo-logo.png")} alt="chinese dance logo"></img>
+              <div className="title">Chinese <br/>Dance</div>
+              <div onClick={() => setShowMenu(false)}><MdClose className="hamburger-menu"/></div>
+            </div>
           </div>
-        ) : (
-          <Link
-            to="/login"
-            className="ml1 no-underline black"
-          >
-            login
-          </Link>
-        )}
-      </div>
+          <div className="lower-menu-wrapper">
+            <div className="lower-menu">
+              <Link to="/" className="menu-link" onClick={()=>setShowMenu(false)}><div className="menu-link-contents ion-color-primary">home</div></Link>
+              <Link to="/about" className="menu-link" onClick={()=>setShowMenu(false)}><div className="menu-link-contents">about</div></Link>
+              <Link to="/search" className="menu-link" onClick={()=>setShowMenu(false)}><div className="menu-link-contents">search</div></Link>
+              <Link to="/articles" className="menu-link" onClick={()=>setShowMenu(false)}><div className="menu-link-contents">articles</div></Link>
+            </div>
+          </div>
+        </div>
+        
+      )}
     </div>
+    <div className="under-header"/>
+    </>
   );
 };
 

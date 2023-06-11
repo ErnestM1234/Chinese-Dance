@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { useMutation, gql } from '@apollo/client';
-import { useNavigate } from 'react-router-dom';
+// import { useNavigate } from 'react-router-dom';
 import { FEED_QUERY } from '../components/LinkList';
 
 const CREATE_LINK_MUTATION = gql`
@@ -18,37 +18,37 @@ const CREATE_LINK_MUTATION = gql`
 `;
 
 const CreateLink = () => {
-  const navigate = useNavigate();
-  const [formState, setFormState] = useState({
-    description: '',
-    url: ''
-  });
+  // const navigate = useNavigate();
+  // const [formState, setFormState] = useState({
+  //   description: '',
+  //   url: ''
+  // });
 
-  const [createLink] = useMutation(CREATE_LINK_MUTATION, {
-    variables: {
-      description: formState.description,
-      url: formState.url
-    },
-    update: (cache, { data: { post } }) => {
-        const data = cache.readQuery<any>({
-          query: FEED_QUERY,
-        });
+  // const [createLink] = useMutation(CREATE_LINK_MUTATION, {
+  //   variables: {
+  //     description: formState.description,
+  //     url: formState.url
+  //   },
+  //   update: (cache, { data: { post } }) => {
+  //       const data = cache.readQuery<any>({
+  //         query: FEED_QUERY,
+  //       });
   
-        cache.writeQuery({
-          query: FEED_QUERY,
-          data: {
-            feed: {
-              links: [post, ...data.feed.links]
-            }
-          },
-        });
-      },
-    onCompleted: () => navigate('/')
-  });
+  //       cache.writeQuery({
+  //         query: FEED_QUERY,
+  //         data: {
+  //           feed: {
+  //             links: [post, ...data.feed.links]
+  //           }
+  //         },
+  //       });
+  //     },
+  //   onCompleted: () => navigate('/')
+  // });
 
   return (
     <div>
-      <form
+      {/* <form
         onSubmit={(e) => {
           e.preventDefault();
           createLink();
@@ -81,7 +81,7 @@ const CreateLink = () => {
           />
         </div>
         <button type="submit">Submit</button>
-      </form>
+      </form> */}
     </div>
   );
 };

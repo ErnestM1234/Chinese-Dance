@@ -1,6 +1,8 @@
 import React from 'react';
 import { AUTH_TOKEN } from '../../constants';
 import { gql, useQuery } from '@apollo/client';
+import { useLocation } from 'react-router-dom';
+import Header from '../components/Header';
 
 
 
@@ -20,14 +22,15 @@ export const ARTICLE_QUERY = gql`
   }
 `;
 
-const Article = (props: { id?: number }) => {
+const Article = () => {
+  const location = useLocation()
+  const queryParameters = new URLSearchParams(location.search);
+
+  const id = parseInt(queryParameters.get("id") || '0');
+
   const authToken = localStorage.getItem(AUTH_TOKEN);
 
-  const { id } = props;
-
-
   const { loading, error, data } = useQuery(ARTICLE_QUERY, {variables: {id}});
- 
   if (loading) {
     return <div>Loading...</div>;
   }
@@ -39,13 +42,19 @@ const Article = (props: { id?: number }) => {
   const { article } = data;
 
   return (
-    <div className="flex mt2 items-start">
-      <div className="ml1">
-        <div>
-          {article.title} {article.text} {article.postedBy.name}
-        </div>
+    <>
+      <div className="article-title">
+        {article.title}
       </div>
-    </div>
+      <br/>
+      <div className="article-author">
+        {article.postedBy.name}
+      </div>
+      <br/>
+      <div className="article-contet">
+         {article.text}
+      </div>
+    </>
   );
 };
   

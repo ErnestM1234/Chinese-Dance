@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { useMutation, gql } from '@apollo/client';
-import { useNavigate } from 'react-router-dom';
+// import { useNavigate } from 'react-router-dom';
 import { AUTH_TOKEN } from '../../constants';
 
 const SIGNUP_MUTATION = gql`
@@ -31,40 +31,40 @@ const LOGIN_MUTATION = gql`
 `;
 
 const Login = () => {
-  const navigate = useNavigate();
-  const [formState, setFormState] = useState({
-    login: true,
-    email: '',
-    password: '',
-    name: ''
-  });
+  // const navigate = useNavigate();
+  // const [formState, setFormState] = useState({
+  //   login: true,
+  //   email: '',
+  //   password: '',
+  //   name: ''
+  // });
 
-  const [login] = useMutation(LOGIN_MUTATION, {
-    variables: {
-      email: formState.email,
-      password: formState.password
-    },
-    onCompleted: ({ login }) => {
-      localStorage.setItem(AUTH_TOKEN, login.token);
-      navigate('/');
-    }
-  });
+  // const [login] = useMutation(LOGIN_MUTATION, {
+  //   variables: {
+  //     email: formState.email,
+  //     password: formState.password
+  //   },
+  //   onCompleted: ({ login }) => {
+  //     localStorage.setItem(AUTH_TOKEN, login.token);
+  //     navigate('/');
+  //   }
+  // });
   
-  const [signup] = useMutation(SIGNUP_MUTATION, {
-    variables: {
-      name: formState.name,
-      email: formState.email,
-      password: formState.password
-    },
-    onCompleted: ({ signup }) => {
-      localStorage.setItem(AUTH_TOKEN, signup.token);
-      navigate('/');
-    }
-  });
+  // const [signup] = useMutation(SIGNUP_MUTATION, {
+  //   variables: {
+  //     name: formState.name,
+  //     email: formState.email,
+  //     password: formState.password
+  //   },
+  //   onCompleted: ({ signup }) => {
+  //     localStorage.setItem(AUTH_TOKEN, signup.token);
+  //     navigate('/');
+  //   }
+  // });
 
   return (
     <div>
-      <h4 className="mv3">
+      {/* <h4 className="mv3">
         {formState.login ? 'Login' : 'Sign Up'}
       </h4>
       <div className="flex flex-column">
@@ -123,7 +123,7 @@ const Login = () => {
             ? 'need to create an account?'
             : 'already have an account?'}
         </button>
-      </div>
+      </div> */}
     </div>
   );
 };

@@ -6,10 +6,9 @@ import Header from '../components/Header';
 
 const Landing = () => {
   return (
-    <>
-      Page
-    </>
+    <>To do</>
   );
 };
   
+
 export default Landing;

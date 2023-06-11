@@ -84,7 +84,9 @@ export const ArticleQuery = extendType({
                 });
 
                 const count = await context.prisma.article.count({ where });
-                const id = `main-feed:${JSON.stringify(args)}`;
+                const id = JSON.stringify(args);
+
+                console.log(count);
                   
                 return {
                     articles,
