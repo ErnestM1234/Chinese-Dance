@@ -38,7 +38,8 @@ const Header = () => {
             <div className="lower-menu">
               <Link to="/" className="menu-link" onClick={()=>setShowMenu(false)}><div className="menu-link-contents ion-color-primary">home</div></Link>
               <Link to="/about" className="menu-link" onClick={()=>setShowMenu(false)}><div className="menu-link-contents">about</div></Link>
-              <Link to="/search" className="menu-link" onClick={()=>setShowMenu(false)}><div className="menu-link-contents">search</div></Link>
+              {/* No search yet */}
+              {/* <Link to="/search" className="menu-link" onClick={()=>setShowMenu(false)}><div className="menu-link-contents">search</div></Link> */}
               <Link to="/articles" className="menu-link" onClick={()=>setShowMenu(false)}><div className="menu-link-contents">articles</div></Link>
               <div className="menu-link"><div className="menu-link-contents">{isAuthenticated ? <LogoutButton /> : <LoginButton />}</div></div>
             </div>

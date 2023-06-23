@@ -32,7 +32,6 @@ const Articles = () => {
     return <div>Error!</div>;
   }
 
-  console.log(data);
   
     return (
       <>

@@ -1,5 +1,4 @@
 import React from 'react';
-import { AUTH_TOKEN } from '../../constants';
 import { gql, useQuery } from '@apollo/client';
 import { useLocation } from 'react-router-dom';
 import Header from '../components/Header';
@@ -28,7 +27,7 @@ const Article = () => {
 
   const id = parseInt(queryParameters.get("id") || '0');
 
-  const authToken = localStorage.getItem(AUTH_TOKEN);
+  const authToken = localStorage.getItem(process.env.REACT_APP_GQL_AUTH_TOKEN || '');
 
   const { loading, error, data } = useQuery(ARTICLE_QUERY, {variables: {id}});
   if (loading) {

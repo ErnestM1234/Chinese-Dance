@@ -1,13 +1,12 @@
 import React from 'react';
-import { AUTH_TOKEN } from '../../constants';
 import { gql, useQuery } from '@apollo/client';
-import Header from '../components/Header';
+import Feed from '../components/Feed';
 
 
 const Landing = () => {
   return (
     <>
-      Page
+      <Feed />
     </>
   );
 };

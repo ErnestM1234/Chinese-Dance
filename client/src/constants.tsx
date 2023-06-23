@@ -1,1 +1,0 @@
-export const AUTH_TOKEN = 'GraphQL-is-aw3some';

@@ -12,7 +12,6 @@ import {
   createHttpLink,
   InMemoryCache
 } from '@apollo/client';
-import { AUTH_TOKEN } from './constants';
 import { Auth0Provider } from '@auth0/auth0-react';
 
 const httpLink = createHttpLink({
@@ -20,7 +19,7 @@ const httpLink = createHttpLink({
 });
 
 const authLink = setContext((_, { headers }) => {
-  const token = localStorage.getItem(AUTH_TOKEN);
+  const token = localStorage.getItem(process.env.REACT_APP_GQL_AUTH_TOKEN || '');
   return {
     headers: {
       ...headers,

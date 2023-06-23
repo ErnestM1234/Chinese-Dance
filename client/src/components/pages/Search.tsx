@@ -1,31 +1,26 @@
 import React, { useState } from 'react';
 import { useLazyQuery, gql } from '@apollo/client';
-import Link from './../components/Link';
-import Header from '../components/Header';
 
-const FEED_SEARCH_QUERY = gql`
-  query FeedSearchQuery($filter: String!) {
-    feed(filter: $filter) {
+const SEARCH_QUERY = gql`
+query Articles($take: Int) {
+  articles(take: $take) {
+    articles {
+      createdAt
       id
-      links {
+      postedBy {
         id
-        url
-        description
-        createdAt
-        postedBy {
-          id
-          name
-        }
-        
+        name
       }
+      text
+      title
     }
   }
-`;
+}`
 
 const Search = () => {
     const [searchFilter, setSearchFilter] = useState('');
     const [executeSearch, { data }] = useLazyQuery(
-      FEED_SEARCH_QUERY
+      SEARCH_QUERY
     );
     return ( 
       <>
@@ -45,10 +40,10 @@ const Search = () => {
               OK
             </button>
           </div>
-          {data &&
+          {/* {data &&
             data.feed.links.map((link: { id: React.Key | null | undefined; }) => (
               <Link key={link.id} link={link} />
-          ))}
+          ))} */}
       </>
     );
   };

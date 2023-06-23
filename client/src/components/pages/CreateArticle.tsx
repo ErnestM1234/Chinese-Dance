@@ -3,19 +3,19 @@ import { useMutation, gql } from '@apollo/client';
 
 
 const CREATE_ARTICLE_MUTATION = gql`
-  mutation Mutation($title: String!, $text: String!) {
-    create(title: $title, text: $text) {
-      createdAt
+mutation Mutation($title: String!, $text: String!) {
+  create(title: $title, text: $text) {
+    createdAt
+    id
+    postedBy {
+      email
       id
-      postedBy {
-        email
-        id
-        name
-      }
-      text
-      title
+      name
     }
+    text
+    title
   }
+}
 `;
 
 const ARTICLES_QUERY = gql`
@@ -36,8 +36,6 @@ query Query {
   }
   
 `
-
-// query Query {
 
 const CreateArticle = () => {
   const [formState, setFormState] = useState({
