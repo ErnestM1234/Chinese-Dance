@@ -84,6 +84,7 @@ export interface NexusGenObjects {
   Mutation: {};
   Query: {};
   User: { // root type
+    bio?: string | null; // String
     email: string; // String!
     id: number; // Int!
     name: string; // String!
@@ -147,8 +148,10 @@ export interface NexusGenFieldTypes {
     article: NexusGenRootTypes['Article'] | null; // Article
     articles: NexusGenRootTypes['Articles']; // Articles!
     feed: NexusGenRootTypes['Feed']; // Feed!
+    user: NexusGenRootTypes['User'] | null; // User
   }
   User: { // field return type
+    bio: string | null; // String
     email: string; // String!
     id: number; // Int!
     links: NexusGenRootTypes['Link'][]; // [Link!]!
@@ -204,8 +207,10 @@ export interface NexusGenFieldTypeNames {
     article: 'Article'
     articles: 'Articles'
     feed: 'Feed'
+    user: 'User'
   }
   User: { // field return type name
+    bio: 'String'
     email: 'String'
     id: 'Int'
     links: 'Link'
@@ -264,6 +269,9 @@ export interface NexusGenArgTypes {
       orderBy?: NexusGenInputs['LinkOrderByInput'][] | null; // [LinkOrderByInput!]
       skip?: number | null; // Int
       take?: number | null; // Int
+    }
+    user: { // args
+      id: number; // Int!
     }
   }
 }

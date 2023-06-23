@@ -7,13 +7,27 @@ import { useAuth0 } from '@auth0/auth0-react';
 import LogoutButton from './LogoutButton';
 
 
-const Header = () => {
-  const navigate = useNavigate();
-  const [showMenu, setShowMenu] = useState(false);
+const LowerMenu = (props: {setShowMenu: any}) => {
   const { isAuthenticated, isLoading } = useAuth0();
   if (isLoading) {
     return <div>Loading ...</div>;
   }
+  const {setShowMenu} = props;
+  return (
+    <div className="lower-menu">
+      <Link to="/" className="menu-link" onClick={()=>setShowMenu(false)}><div className="menu-link-contents ion-color-primary">home</div></Link>
+      <Link to="/about" className="menu-link" onClick={()=>setShowMenu(false)}><div className="menu-link-contents">about</div></Link>
+      <Link to="/search" className="menu-link" onClick={()=>setShowMenu(false)}><div className="menu-link-contents">search</div></Link>
+      <Link to="/articles" className="menu-link" onClick={()=>setShowMenu(false)}><div className="menu-link-contents">articles</div></Link>
+      <div className="menu-link"><div className="menu-link-contents">{isAuthenticated ? <LogoutButton /> : <LoginButton />}</div></div>
+    </div>
+    )
+}
+
+
+const Header = () => {
+  const navigate = useNavigate();
+  const [showMenu, setShowMenu] = useState(false);
 
   return (
     <>
@@ -34,13 +48,7 @@ const Header = () => {
             </div>
           </div>
           <div className="lower-menu-wrapper">
-            <div className="lower-menu">
-              <Link to="/" className="menu-link" onClick={()=>setShowMenu(false)}><div className="menu-link-contents ion-color-primary">home</div></Link>
-              <Link to="/about" className="menu-link" onClick={()=>setShowMenu(false)}><div className="menu-link-contents">about</div></Link>
-              <Link to="/search" className="menu-link" onClick={()=>setShowMenu(false)}><div className="menu-link-contents">search</div></Link>
-              <Link to="/articles" className="menu-link" onClick={()=>setShowMenu(false)}><div className="menu-link-contents">articles</div></Link>
-              <div className="menu-link"><div className="menu-link-contents">{isAuthenticated ? <LogoutButton /> : <LoginButton />}</div></div>
-            </div>
+            <LowerMenu setShowMenu={setShowMenu}></LowerMenu>
           </div>
         </div>
         

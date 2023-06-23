@@ -67,6 +67,7 @@ type Query {
   article(id: Int!): Article
   articles(filter: String, orderBy: [ArticleOrderByInput!], skip: Int, take: Int): Articles!
   feed(filter: String, orderBy: [LinkOrderByInput!], skip: Int, take: Int): Feed!
+  user(id: Int!): User
 }
 
 enum Sort {
@@ -75,6 +76,7 @@ enum Sort {
 }
 
 type User {
+  bio: String
   email: String!
   id: Int!
   links: [Link!]!

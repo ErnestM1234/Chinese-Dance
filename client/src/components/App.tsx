@@ -8,6 +8,7 @@ import WebFont from 'webfontloader';
 import Articles from './pages/Articles';
 import Landing from './pages/Landing';
 import About from './pages/About';
+import Author from './pages/Author';
 
 
 const App = () => {
@@ -30,6 +31,7 @@ const App = () => {
         <Route path="/article" element={<Article/>}/>
         <Route path="/articles" element={<Articles/>}/>
         <Route path="/about" element={<About/>}/>
+        <Route path="/author" element={<Author/>}/>
       </Routes>
     </>
   );
