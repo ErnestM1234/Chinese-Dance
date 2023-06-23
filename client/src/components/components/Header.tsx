@@ -20,7 +20,6 @@ const Header = () => {
       {(!showMenu ?
         <div className="header">
           <div className="header-contents-container">
-            <img className="logo" src={require("./chinese-dance-demo-logo.png")} alt="chinese dance logo"></img>
             <div className="title">Chinese <br/>Dance</div>
             <div onClick={() => setShowMenu(true)}><FiMenu className="hamburger-menu"/></div>
           </div>
@@ -29,7 +28,6 @@ const Header = () => {
         <div className="header-long">
           <div className="header">
             <div className="header-contents-container">
-              <img className="logo" src={require("./chinese-dance-demo-logo.png")} alt="chinese dance logo"></img>
               <div className="title">Chinese <br/>Dance</div>
               <div onClick={() => setShowMenu(false)}><MdClose className="hamburger-menu"/></div>
             </div>

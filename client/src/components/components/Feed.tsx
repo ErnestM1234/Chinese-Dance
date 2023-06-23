@@ -25,7 +25,7 @@ const Feed = () => {
         });
   
     if (loading) {
-        return <div>Loading...</div>;
+        return <div>Loading Feed...</div>;
     }
     if (error) {
         console.error(error);
