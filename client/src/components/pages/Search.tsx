@@ -1,9 +1,10 @@
 import React, { useState } from 'react';
 import { useLazyQuery, gql } from '@apollo/client';
+import ArticlePreview from '../components/ArticlePreview';
 
 const SEARCH_QUERY = gql`
-query Articles($take: Int) {
-  articles(take: $take) {
+query Articles($filter: String) {
+  articles(filter: $filter) {
     articles {
       createdAt
       id
@@ -40,10 +41,10 @@ const Search = () => {
               OK
             </button>
           </div>
-          {/* {data &&
-            data.feed.links.map((link: { id: React.Key | null | undefined; }) => (
-              <Link key={link.id} link={link} />
-          ))} */}
+          {data &&
+            data.articles.articles.map((article: any) => (
+              <ArticlePreview args={{id: article.id, title: article.title, text: article.text}}></ArticlePreview>
+          ))}
       </>
     );
   };

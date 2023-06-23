@@ -64,7 +64,7 @@ export const ArticleQuery = extendType({
                 take: intArg(),
                 orderBy: arg({ type: list(nonNull(ArticleOrderByInput)) }), 
             },
-            async resolve(_, args, context) {  
+            async resolve(_, args, context) { 
                 const where = args.filter
                     ? {
                           OR: [
