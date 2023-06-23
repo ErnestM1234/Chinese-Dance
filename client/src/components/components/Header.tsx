@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import { MdClose } from 'react-icons/md';
 import { FiMenu } from 'react-icons/fi';
 import LoginButton from './LoginButton';
@@ -8,6 +8,7 @@ import LogoutButton from './LogoutButton';
 
 
 const Header = () => {
+  const navigate = useNavigate();
   const [showMenu, setShowMenu] = useState(false);
   const { isAuthenticated, isLoading } = useAuth0();
   if (isLoading) {
@@ -20,7 +21,7 @@ const Header = () => {
       {(!showMenu ?
         <div className="header">
           <div className="header-contents-container">
-            <div className="title">Chinese <br/>Dance</div>
+            <div className="title" onClick={() => navigate(`/`)}>Chinese <br/>Dance</div>
             <div onClick={() => setShowMenu(true)}><FiMenu className="hamburger-menu"/></div>
           </div>
         </div>
